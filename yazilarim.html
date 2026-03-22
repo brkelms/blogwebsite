@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yazılarım - Burak Elmas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">Burak Elmas <span class="logo-sub">- Kişisel Blog</span></div>
+            <ul class="menu">
+                <li><a href="index.html">Anasayfa</a></li>
+                <li><a href="oyunlar.html">Oyunlar</a></li>
+                <li><a href="#">Kodlama</a></li>
+                <li><a href="yazilarim.html" class="active">Yazılarım</a></li>
+                <li><a href="bilisim-deposu.html">Bilişim Deposu</a></li>
+                <li><a href="iletisim.html">İletişim</a></li>
+                <li><button id="theme-toggle" class="theme-btn" title="Temayı Değiştir">🌙</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Yazılarım</h1>
+            <p>Eğitim, teknoloji, projeler ve kişisel deneyimlerim üzerine notlar.</p>
+        </section>
+
+        <section class="article-list">
+            
+            <article class="article-card">
+                <div class="article-thumb">
+                    <img src="https://via.placeholder.com/300x200/2c3e50/ffffff?text=Teknofest" alt="Akıllı Çanta Projesi">
+                </div>
+                <div class="article-content">
+                    <span class="post-date">20 Mart 2026 • Projeler</span>
+                    <h3><a href="#">Teknofest 'Akıllı Çanta' Projemiz ve Öğrencilerle Çalışma Sürecimiz</a></h3>
+                    <p class="post-excerpt">Yıldızlar takımı ile yürüttüğümüz bu projede, donanım ihtiyaçlarından algoritma tasarımına kadar geçen süreci ve öğrencilerimizin gelişimini kaleme aldım.</p>
+                    <a href="#" class="read-more">Devamını Oku &rarr;</a>
+                </div>
+            </article>
+
+            <article class="article-card">
+                <div class="article-thumb">
+                    <img src="https://via.placeholder.com/300x200/27ae60/ffffff?text=Saksi+Bahceciligi" alt="Saksı Bahçeciliği">
+                </div>
+                <div class="article-content">
+                    <span class="post-date">15 Mart 2026 • Yaşam</span>
+                    <h3><a href="#">Evde Saksı Bahçeciliği: Pratik ve Hızlı Büyüyen Bitkiler</a></h3>
+                    <p class="post-excerpt">Balkon veya pencere önünde, bakımı kolay ve hızlı sonuç veren sebze ve meyveleri nasıl yetiştirebileceğimize dair pratik ipuçları. Doğa ile iç içe küçük bir mola.</p>
+                    <a href="#" class="read-more">Devamını Oku &rarr;</a>
+                </div>
+            </article>
+
+            <article class="article-card">
+                <div class="article-thumb">
+                    <img src="https://via.placeholder.com/300x200/e67e22/ffffff?text=Okuma+Hedefi" alt="Kitap Okuma Hedefi">
+                </div>
+                <div class="article-content">
+                    <span class="post-date">8 Mart 2026 • Kişisel Gelişim</span>
+                    <h3><a href="#">300 Günlük Okuma Serüveni: Her Gün 12 Sayfa</a></h3>
+                    <p class="post-excerpt">Yıl sonuna kadar sürdüreceğim okuma hedefime başladım. İlerlememi takip etmek için oluşturduğum sistem ve düzenli okuma alışkanlığının odaklanmaya etkisi.</p>
+                    <a href="#" class="read-more">Devamını Oku &rarr;</a>
+                </div>
+            </article>
+
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Burak Elmas. Tüm hakları saklıdır.</p>
+    </footer>
+
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggle.innerHTML = '☀️';
+        }
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                themeToggle.innerHTML = '☀️';
+            } else {
+                localStorage.setItem('theme', 'light');
+                themeToggle.innerHTML = '🌙';
+            }
+        });
+    </script>
+</body>
+</html>

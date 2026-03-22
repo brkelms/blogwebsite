@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bilişim Deposu - Burak Elmas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">Burak Elmas <span class="logo-sub">- Kişisel Blog</span></div>
+            <ul class="menu">
+                <li><a href="index.html" class="active">Anasayfa</a></li>
+                <li><a href="oyunlar.html">Oyunlar</a></li>
+                <li><a href="#">Kodlama</a></li>
+                <li><a href="#">Yazılarım</a></li>
+                <li><a href="bilisim-deposu.html">Bilişim Deposu</a></li>
+                <li><a href="iletisim.html">İletişim</a></li>
+                <li><button id="theme-toggle" class="theme-btn" title="Temayı Değiştir">🌙</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Bilişim Deposu</h1>
+            <p>Ders materyalleri, sunumlar ve çalışma kağıtları arşivi.</p>
+        </section>
+
+        <section class="repository-section">
+            
+            <div class="filter-controls">
+                <button class="filter-btn active" data-filter="all">Tüm Dosyalar</button>
+                <button class="filter-btn" data-filter="sinif-5">5. Sınıf</button>
+                <button class="filter-btn" data-filter="sinif-6">6. Sınıf</button>
+            </div>
+
+            <div class="file-list">
+
+                <div class="file-item sinif-5">
+                    <div class="file-icon">📊</div>
+                    <div class="file-info">
+                        <h3>Bilişim Teknolojileri Temel Kavramlar Sunumu</h3>
+                        <p>Donanım ve yazılım birimlerini anlatan güncel ders slaytı (.pptx)</p>
+                    </div>
+                    <a href="dosyalar/temel-kavramlar.pptx" download class="download-btn">İndir &darr;</a>
+                </div>
+
+                <div class="file-item sinif-5">
+                    <div class="file-icon">📄</div>
+                    <div class="file-info">
+                        <h3>Dijital Yurttaşlık ve Bilişim Etiği</h3>
+                        <p>Türkiye Yüzyılı Maarif Modeli kazanımlarına uygun okuma metni ve etkinlikler (.pdf)</p>
+                    </div>
+                    <a href="dosyalar/dijital-yurttaslik.pdf" download class="download-btn">İndir &darr;</a>
+                </div>
+
+                <div class="file-item sinif-6">
+                    <div class="file-icon">📄</div>
+                    <div class="file-info">
+                        <h3>Algoritma ve Akış Şemaları Çalışma Kağıdı</h3>
+                        <p>Problem çözme basamaklarını pekiştirmek için hazırlanmış örnek sorular (.pdf)</p>
+                    </div>
+                    <a href="dosyalar/algoritma-calisma-kagidi.pdf" download class="download-btn">İndir &darr;</a>
+                </div>
+
+                <div class="file-item sinif-6">
+                    <div class="file-icon">🖼️</div>
+                    <div class="file-info">
+                        <h3>Akıllı Çanta Projesi Tasarım Taslağı</h3>
+                        <p>Teknofest projesi için donanım bileşenlerinin yerleşim şeması (.png)</p>
+                    </div>
+                    <a href="dosyalar/akilli-canta-taslak.png" download class="download-btn">İndir &darr;</a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Burak Elmas. Tüm hakları saklıdır.</p>
+    </footer>
+
+    <script>
+        // --- Karanlık Mod Scripti ---
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggle.innerHTML = '☀️';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                themeToggle.innerHTML = '☀️';
+            } else {
+                localStorage.setItem('theme', 'light');
+                themeToggle.innerHTML = '🌙';
+            }
+        });
+
+        // --- Sınıf Filtreleme Scripti ---
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const fileItems = document.querySelectorAll('.file-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Aktif buton stilini değiştir
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Seçilen filtreyi al
+                const filterValue = btn.getAttribute('data-filter');
+
+                // Dosyaları gizle veya göster
+                fileItems.forEach(item => {
+                    if (filterValue === 'all' || item.classList.contains(filterValue)) {
+                        item.style.display = 'flex';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

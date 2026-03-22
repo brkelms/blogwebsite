@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oyunlar - Burak Elmas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">Burak Elmas <span class="logo-sub">- Kişisel Blog</span></div>
+            <ul class="menu">
+               <li><a href="index.html" class="active">Anasayfa</a></li>
+                <li><a href="oyunlar.html">Oyunlar</a></li>
+                <li><a href="#">Kodlama</a></li>
+                <li><a href="#">Yazılarım</a></li>
+                <li><a href="bilisim-deposu.html">Bilişim Deposu</a></li>
+                <li><a href="iletisim.html">İletişim</a></li>
+                <li><button id="theme-toggle" class="theme-btn" title="Temayı Değiştir">🌙</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Zeka ve Algoritma Oyunları</h1>
+            <p>Eğlenirken problem çözme becerilerini ve analitik düşünmeyi geliştirebileceğin oyunlar.</p>
+        </section>
+
+        <section class="games-section">
+            <div class="games-grid">
+                
+                <a href="https://www.zekatestimerkezi.com/zekaoyunlari/hanoiKuleleri.php" target="_blank" class="game-card hanoi">
+                    <div class="game-icon">🗼</div>
+                    <h3>Hanoi Kuleleri</h3>
+                    <p>Diskleri kurallara uyarak en az hamleyle taşı.</p>
+                </a>
+
+                <a href="https://sudokus.biz/" target="_blank" class="game-card sudoku">
+                    <div class="game-icon">🔢</div>
+                    <h3>Sudoku</h3>
+                    <p>Rakamları mantıklı bir şekilde boşluklara yerleştir.</p>
+                </a>
+
+                <a href="https://www.dersimiz.com/oyna-boya/?oyun=15" target="_blank" class="game-card kurt">
+                    <div class="game-icon">🐺</div>
+                    <h3>Kurt, Kuzu ve Ot</h3>
+                    <p>Mantık yürüterek kayıktakileri güvenle karşıya geçir.</p>
+                </a>
+
+<a href="https://www.chess.com/tr/play/computer" target="_blank" class="game-card satranc">
+                    <div class="game-icon">♟️</div>
+                    <h3>Satranç</h3>
+                    <p>Bilgisayara karşı stratejini test et ve hamlelerini geliştir.</p>
+                </a>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Burak Elmas. Tüm hakları saklıdır.</p>
+    </footer>
+
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggle.innerHTML = '☀️';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                themeToggle.innerHTML = '☀️';
+            } else {
+                localStorage.setItem('theme', 'light');
+                themeToggle.innerHTML = '🌙';
+            }
+        });
+    </script>
+
+</body>
+</html>
