@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code.org Egzersizleri - Burak Elmas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Burak Elmas <span class="logo-sub">- Kişisel Blog</span></div>
+            <ul class="menu">
+                <li><a href="index.html">Anasayfa</a></li>
+                <li><a href="oyunlar.html" class="active">Oyunlar</a></li>
+                <li><a href="#">Kodlama</a></li>
+                <li><a href="yazilarim.html">Yazılarım</a></li>
+                <li><a href="bilisim-deposu.html">Bilişim Deposu</a></li>
+                <li><a href="iletisim.html">İletişim</a></li>
+                <li><button id="theme-toggle" class="theme-btn">🌙</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Code.org Egzersizleri</h1>
+            <p>Algoritma kurma ve blok tabanlı kodlama görevleri.</p>
+        </section>
+
+        <section class="link-groups-container">
+            <div class="link-group">
+                <div class="grouped-links">
+                    <a href="https://studio.code.org/s/course1/lessons/4/levels/1" target="_blank">Klasik Labirent: Kuşu Domuza Ulaştır</a>
+                    <a href="https://studio.code.org/s/course1/lessons/8/levels/1" target="_blank">Arı ile Çiçek Özü Toplama</a>
+                    <a href="https://studio.code.org/s/course1/lessons/13/levels/1" target="_blank">Sanatçı ile Şekil Çizimi</a>
+                    <a href="https://studio.code.org/s/mc/lessons/1/levels/1" target="_blank">Minecraft: Maceracı</a>
+                    <a href="https://studio.code.org/s/dance-2019/lessons/1/levels/1" target="_blank">Dans Partisi Koreografisi</a>
+                    <a href="https://studio.code.org/s/starwarsblocks/lessons/1/levels/1" target="_blank">Star Wars: Galaksiyi Kodla</a>
+                </div>
+            </div>
+
+            <a href="oyunlar.html" class="read-more" style="margin-top: 20px; display: inline-block;">&larr; Oyunlara Dön</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Burak Elmas. Tüm hakları saklıdır.</p>
+    </footer>
+
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggle.innerHTML = '☀️';
+        }
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+            themeToggle.innerHTML = body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        });
+    </script>
+</body>
+</html>

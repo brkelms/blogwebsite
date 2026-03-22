@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wordwall Etkinlikleri - Burak Elmas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Burak Elmas <span class="logo-sub">- Kişisel Blog</span></div>
+            <ul class="menu">
+                <li><a href="index.html">Anasayfa</a></li>
+                <li><a href="oyunlar.html" class="active">Oyunlar</a></li>
+                <li><a href="kodlama.html">Kodlama</a></li>
+                <li><a href="yazilarim.html">Yazılarım</a></li>
+                <li><a href="bilisim-deposu.html">Bilişim Deposu</a></li>
+                <li><a href="iletisim.html">İletişim</a></li>
+                <li><button id="theme-toggle" class="theme-btn">🌙</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Wordwall Etkinlikleri</h1>
+            <p>Ders konularını pekiştirmek için kullanabileceğin etkileşimli oyunlar.</p>
+        </section>
+
+        <section class="link-groups-container">
+            <div class="link-group">
+                <div class="grouped-links">
+                    <a href="https://wordwall.net/tr/resource/91196658/yapay-zeka
+" target="_blank">Yapay Zeka-1</a>
+                    <a href="https://wordwall.net/tr/resource/68963278/bili%C5%9Fim-teknolojileri-ve-yaz%C4%B1l%C4%B1m/kim
+" target="_blank">Yapay Zeka-2</a>
+                    <a href="https://wordwall.net/tr/resource/9446060/internet-taray%C4%B1c%C4%B1s%C4%B1-arama-motoru
+" target="_blank">İnternet Tarayıcısı-Arama Motoru</a>
+                    <a href="https://wordwall.net/tr/resource/30407721/bili%C5%9Fim-eti%C4%9Fi
+" target="_blank">Bilişim Etiği</a>
+                    <a href="https://wordwall.net/tr/resource/7907383/dosya-uzant%C4%B1lar%C4%B1
+" target="_blank">Dosya Uzantıları-1</a>
+                    <a href="https://wordwall.net/tr/resource/25859703/bili%C5%9Fim-teknolojileri-ve-yaz%C4%B1l%C4%B1m/dosya
+" target="_blank">Dosya Uzantıları-2</a>
+<a href="#" target="_blank">Dosya Uzantıları</a>
+                    <a href="https://wordwall.net/tr/resource/35982248/i%C5%9Fletim-sistemi
+" target="_blank">İşletim Sistemleri-1</a>
+                    <a href="https://wordwall.net/tr/resource/36306733/bili%C5%9Fim-teknolojileri-ve-yaz%C4%B1l%C4%B1m/i%C5%9Fletim
+" target="_blank">İşletim Sistemleri-2</a>
+                    <a href="https://wordwall.net/tr/resource/24261176/bilgisayar-a%C4%9Flar%C4%B1
+" target="_blank">Bilgisayar Ağları-1</a>
+                    <a href="https://wordwall.net/tr/resource/27008955/bili%C5%9Fim-teknolojileri-ve-yaz%C4%B1l%C4%B1m/bilgisayar
+" target="_blank">Bilgisayar Ağları-2</a>
+                    <a href="https://wordwall.net/tr/resource/38733119/bili%C5%9Fim-teknolojileri-ve-yaz%C4%B1l%C4%B1m/bilgisayar
+" target="_blank">Bilgisayar Ağları-3</a>
+<a href="#" target="_blank">Bilgisayar Ağları-4</a>
+                    <a href="https://wordwall.net/tr/resource/23901583/bilgisayar-a%C4%9Flar%C4%B1
+" target="_blank">Problem Çözme Basamakları Testi</a>
+                    <a href="#" target="_blank">Sabit ve Değişken Kavramları Eşleştirme</a>
+<a href="#" target="_blank">Algoritma Adımlarını Sıralama</a>
+                    <a href="#" target="_blank">Problem Çözme Basamakları Testi</a>
+                    <a href="#" target="_blank">Sabit ve Değişken Kavramları Eşleştirme</a>
+<a href="#" target="_blank">Algoritma Adımlarını Sıralama</a>
+                    <a href="#" target="_blank">Problem Çözme Basamakları Testi</a>
+                    <a href="#" target="_blank">Sabit ve Değişken Kavramları Eşleştirme</a>
+                </div>
+            </div>
+
+            <a href="oyunlar.html" class="read-more" style="margin-top: 20px; display: inline-block;">&larr; Oyunlara Dön</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Burak Elmas. Tüm hakları saklıdır.</p>
+    </footer>
+
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggle.innerHTML = '☀️';
+        }
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+            themeToggle.innerHTML = body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        });
+    </script>
+</body>
+</html>

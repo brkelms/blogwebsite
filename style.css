@@ -539,3 +539,263 @@ body.dark-mode .game-card.satranc {
         height: 200px;
     }
 }
+/* --- YAPIM AŞAMASINDA SAYFASI EKLENTİLERİ --- */
+
+.construction-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 65vh;
+    text-align: center;
+}
+
+.construction-container {
+    padding: 40px 20px;
+    max-width: 500px;
+}
+
+.construction-icon {
+    font-size: 5rem;
+    margin-bottom: 20px;
+    animation: pulse 2s infinite; /* İkonun hafifçe nefes alıp vermesi için animasyon */
+}
+
+.construction-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    color: var(--text-primary);
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.construction-container p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.back-btn {
+    display: inline-block;
+    padding: 10px 25px;
+    background-color: transparent;
+    color: var(--text-primary);
+    text-decoration: none;
+    border: 2px solid var(--border-color);
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+    background-color: var(--text-primary);
+    color: var(--bg-color);
+    border-color: var(--text-primary);
+}
+
+/* Nefes Alma (Pulse) Animasyonu */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* --- KLASÖR GEZGİNİ (FILE MANAGER) TASARIMI --- */
+
+.file-manager {
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background-color: transparent;
+    overflow: hidden;
+    margin-bottom: 50px;
+}
+
+/* Üstteki Konum Çubuğu */
+.path-bar {
+    background-color: var(--header-bg);
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.path-text {
+    color: var(--text-primary);
+}
+
+/* Klasör ve Dosyaların Izgarası */
+.explorer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+    padding: 25px;
+}
+
+/* Klasör/Dosya İkonu Kutusu */
+.explorer-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    text-align: center;
+    position: relative;
+    border: 1px solid transparent;
+}
+
+.explorer-item:hover {
+    background-color: var(--header-bg);
+    border-color: var(--border-color);
+    transform: translateY(-3px);
+}
+
+.item-icon {
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+}
+
+.item-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    word-break: break-word; /* Uzun dosya isimlerini alt satıra atar */
+}
+
+/* İndirme Butonu (Sadece dosyalarda görünür) */
+.item-download {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 1rem;
+    opacity: 0; /* Normalde gizli */
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.explorer-item:hover .item-download {
+    opacity: 1; /* Farenin imleci üzerine gelince görünür */
+}
+
+.item-download:hover {
+    transform: scale(1.1);
+    background-color: var(--text-primary);
+}
+/* Oyun 5: Wordwall (Pastel Pembe) */
+.game-card.wordwall {
+    background-color: #fce7f3; 
+    color: #9d174d; 
+}
+
+/* Oyun 6: Code.org (Pastel Turuncu) */
+.game-card.codeorg {
+    background-color: #ffedd5; 
+    color: #c2410c; 
+}
+
+/* Karanlık Mod İstisnaları */
+body.dark-mode .game-card.wordwall { color: #9d174d; }
+body.dark-mode .game-card.codeorg { color: #c2410c; }
+
+/* --- LİNK LİSTESİ TASARIMI (Wordwall ve Code.org sayfaları için) --- */
+.link-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 50px;
+}
+
+.link-item {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.link-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    border-color: var(--text-primary);
+}
+
+.link-icon {
+    font-size: 2rem;
+    margin-right: 20px;
+}
+
+.link-content h3 {
+    font-size: 1.2rem;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.link-content p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+/* --- GRUPLANDIRILMIŞ LİNK LİSTELERİ TASARIMI --- */
+.link-group {
+    margin-bottom: 40px;
+}
+
+.link-group h3 {
+    font-size: 1.3rem;
+    color: var(--text-primary);
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border-color);
+    font-weight: 700;
+}
+
+.grouped-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.grouped-links a {
+    display: block;
+    padding: 12px 20px 12px 45px;
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+/* Linklerin başına küçük bir ikon ekler */
+.grouped-links a::before {
+    content: '🔗'; 
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    opacity: 0.7;
+}
+
+.grouped-links a:hover {
+    border-color: var(--text-primary);
+    background-color: var(--header-bg);
+    transform: translateX(5px);
+}

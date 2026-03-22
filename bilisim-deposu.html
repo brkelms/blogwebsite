@@ -12,11 +12,11 @@
         <nav>
             <div class="logo">Burak Elmas <span class="logo-sub">- Kişisel Blog</span></div>
             <ul class="menu">
-                <li><a href="index.html" class="active">Anasayfa</a></li>
+                <li><a href="index.html">Anasayfa</a></li>
                 <li><a href="oyunlar.html">Oyunlar</a></li>
-                <li><a href="#">Kodlama</a></li>
-                <li><a href="#">Yazılarım</a></li>
-                <li><a href="bilisim-deposu.html">Bilişim Deposu</a></li>
+                <li><a href="kodlama.html">Kodlama</a></li>
+                <li><a href="yazilarim.html">Yazılarım</a></li>
+                <li><a href="bilisim-deposu.html" class="active">Bilişim Deposu</a></li>
                 <li><a href="iletisim.html">İletişim</a></li>
                 <li><button id="theme-toggle" class="theme-btn" title="Temayı Değiştir">🌙</button></li>
             </ul>
@@ -29,53 +29,16 @@
             <p>Ders materyalleri, sunumlar ve çalışma kağıtları arşivi.</p>
         </section>
 
-        <section class="repository-section">
+        <section class="file-manager">
             
-            <div class="filter-controls">
-                <button class="filter-btn active" data-filter="all">Tüm Dosyalar</button>
-                <button class="filter-btn" data-filter="sinif-5">5. Sınıf</button>
-                <button class="filter-btn" data-filter="sinif-6">6. Sınıf</button>
+            <div class="path-bar">
+                <span>📍 Konum: </span>
+                <span id="current-path" class="path-text">Dersler</span>
             </div>
 
-            <div class="file-list">
-
-                <div class="file-item sinif-5">
-                    <div class="file-icon">📊</div>
-                    <div class="file-info">
-                        <h3>Bilişim Teknolojileri Temel Kavramlar Sunumu</h3>
-                        <p>Donanım ve yazılım birimlerini anlatan güncel ders slaytı (.pptx)</p>
-                    </div>
-                    <a href="dosyalar/temel-kavramlar.pptx" download class="download-btn">İndir &darr;</a>
+            <div id="explorer-window" class="explorer-grid">
                 </div>
 
-                <div class="file-item sinif-5">
-                    <div class="file-icon">📄</div>
-                    <div class="file-info">
-                        <h3>Dijital Yurttaşlık ve Bilişim Etiği</h3>
-                        <p>Türkiye Yüzyılı Maarif Modeli kazanımlarına uygun okuma metni ve etkinlikler (.pdf)</p>
-                    </div>
-                    <a href="dosyalar/dijital-yurttaslik.pdf" download class="download-btn">İndir &darr;</a>
-                </div>
-
-                <div class="file-item sinif-6">
-                    <div class="file-icon">📄</div>
-                    <div class="file-info">
-                        <h3>Algoritma ve Akış Şemaları Çalışma Kağıdı</h3>
-                        <p>Problem çözme basamaklarını pekiştirmek için hazırlanmış örnek sorular (.pdf)</p>
-                    </div>
-                    <a href="dosyalar/algoritma-calisma-kagidi.pdf" download class="download-btn">İndir &darr;</a>
-                </div>
-
-                <div class="file-item sinif-6">
-                    <div class="file-icon">🖼️</div>
-                    <div class="file-info">
-                        <h3>Akıllı Çanta Projesi Tasarım Taslağı</h3>
-                        <p>Teknofest projesi için donanım bileşenlerinin yerleşim şeması (.png)</p>
-                    </div>
-                    <a href="dosyalar/akilli-canta-taslak.png" download class="download-btn">İndir &darr;</a>
-                </div>
-
-            </div>
         </section>
     </main>
 
@@ -84,15 +47,112 @@
     </footer>
 
     <script>
-        // --- Karanlık Mod Scripti ---
+// --- KLASÖR VE DOSYA SİSTEMİ ---
+        const dosyaSistemi = {
+            "Dersler": [
+                { tip: "klasor", ad: "5. Sınıflar", hedef: "5. Siniflar" },
+                { tip: "klasor", ad: "6. Sınıflar", hedef: "6. Siniflar" }
+
+            ],
+            
+            // --- 5. SINIFLAR ANA KLASÖRÜ ---
+            "5. Siniflar": [
+                { tip: "klasor", ad: "Ana Dizine Dön", hedef: "Dersler", ikon: "↩️" },
+                { tip: "klasor", ad: "Mart-Son", hedef: "5. Siniflar - Mart-Son" },
+                { tip: "klasor", ad: "Nisan-1", hedef: "5. Siniflar - Nisan-1" },
+                { tip: "klasor", ad: "Nisan-2", hedef: "5. Siniflar - Nisan-2" },
+                { tip: "klasor", ad: "Nisan-3", hedef: "5. Siniflar - Nisan-3" }
+        
+            ],
+            
+            // --- 6. SINIFLAR ANA KLASÖRÜ ---
+            "6. Siniflar": [
+                { tip: "klasor", ad: "Ana Dizine Dön", hedef: "Dersler", ikon: "↩️" },
+                { tip: "klasor", ad: "Mart-Son", hedef: "6. Siniflar - Mart-Son" },
+                { tip: "klasor", ad: "Nisan-1", hedef: "6. Siniflar - Nisan-1" },
+                { tip: "klasor", ad: "Nisan-2", hedef: "6. Siniflar - Nisan-2" },
+                { tip: "klasor", ad: "Nisan-3", hedef: "6. Siniflar - Nisan-3" }
+            ],
+
+            
+
+            // --- YENİ EKLENEN ALT KLASÖRLERİN İÇERİKLERİ ---
+            // Bu klasörlere şimdilik sadece "Geri Dön" butonu ekledik. Kendi ders materyallerini buralara yerleştirebilirsin.
+            
+            "5. Siniflar - Mart-Son": [ { tip: "klasor", ad: "Üst Klasöre Dön", hedef: "5. Siniflar", ikon: "↩️" },
+                { tip: "dosya", ad: "Problem-Belirleme-ve-Algoritma-Olusturma-1.pdf", url: "dersler/5_sinif/Problem-Belirleme-ve-Algoritma-Olusturma-1.pdf" },
+                { tip: "dosya", ad: "problem çözme oyunu.pptx", url: "dersler/5_sinif/problem çözme oyunu.pptx" },
+                { tip: "dosya", ad: "2.Dönem 2. Hafta Problem Çözme Stratejileri.pptx", url: "dersler/5_sinif/2.Dönem 2. Hafta Problem Çözme Stratejileri.pptx" },
+                { tip: "dosya", ad: "2. Dönem 1. Hafta Problem.pptx", url: "dersler/5_sinif/2. Dönem 1. Hafta Problem.pptx" }
+ ],
+            "5. Siniflar - Nisan-1": [ { tip: "klasor", ad: "Üst Klasöre Dön", hedef: "5. Siniflar", ikon: "↩️" } ],
+            "5. Siniflar - Nisan-2": [ { tip: "klasor", ad: "Üst Klasöre Dön", hedef: "5. Siniflar", ikon: "↩️" } ],
+            "5. Siniflar - Nisan-3": [ { tip: "klasor", ad: "Üst Klasöre Dön", hedef: "5. Siniflar", ikon: "↩️" } ],
+
+            "6. Siniflar - Mart-Son": [ { tip: "klasor", ad: "Üst Klasöre Dön", hedef: "6. Siniflar", ikon: "↩️" } ],
+            "6. Siniflar - Nisan-1": [ { tip: "klasor", ad: "Üst Klasöre Dön", hedef: "6. Siniflar", ikon: "↩️" } ],
+            "6. Siniflar - Nisan-2": [ { tip: "klasor", ad: "Üst Klasöre Dön", hedef: "6. Siniflar", ikon: "↩️" } ],
+            "6. Siniflar - Nisan-3": [ { tip: "klasor", ad: "Üst Klasöre Dön", hedef: "6. Siniflar", ikon: "↩️" } ]
+        };
+
+        const explorerWindow = document.getElementById('explorer-window');
+        const currentPathText = document.getElementById('current-path');
+
+        // Uzantıya göre uygun emojiyi seçen fonksiyon
+        function getDosyaIkonu(dosyaAdi) {
+            const ad = dosyaAdi.toLowerCase();
+            if (ad.endsWith('.pdf')) return '📕'; 
+            if (ad.endsWith('.pptx') || ad.endsWith('.ppt')) return '📊'; 
+            if (ad.endsWith('.docx') || ad.endsWith('.doc')) return '📝'; 
+            if (ad.endsWith('.xlsx') || ad.endsWith('.xls')) return '📈'; 
+            if (ad.endsWith('.zip') || ad.endsWith('.rar')) return '🗂️'; 
+            if (ad.endsWith('.png') || ad.endsWith('.jpg') || ad.endsWith('.jpeg')) return '🖼️'; 
+            return '📄'; 
+        }
+
+        // Klasör içeriğini ekrana çizen fonksiyon
+        function klasoruAc(klasorAdi) {
+            explorerWindow.innerHTML = ''; 
+            currentPathText.innerText = klasorAdi; 
+
+            const icerikler = dosyaSistemi[klasorAdi];
+
+            icerikler.forEach(oge => {
+                const itemDiv = document.createElement('div');
+                itemDiv.classList.add('explorer-item');
+
+                if (oge.tip === "klasor") {
+                    itemDiv.innerHTML = `
+                        <div class="item-icon">${oge.ikon ? oge.ikon : '📁'}</div>
+                        <div class="item-name">${oge.ad}</div>
+                    `;
+                    itemDiv.onclick = () => klasoruAc(oge.hedef); 
+                } else if (oge.tip === "dosya") {
+                    const dosyaIkonu = getDosyaIkonu(oge.ad);
+                    itemDiv.innerHTML = `
+                        <div class="item-icon">${dosyaIkonu}</div>
+                        <div class="item-name">${oge.ad}</div>
+                        <a href="${oge.url}" download class="item-download" title="İndir">⬇️</a>
+                    `;
+                }
+
+                explorerWindow.appendChild(itemDiv);
+            });
+        }
+
+        // Başlangıçta ana dizini aç
+        klasoruAc("Dersler");
+// --- Karanlık Mod Scripti ---
         const themeToggle = document.getElementById('theme-toggle');
         const body = document.body;
-
+        
+        // Sayfa yüklendiğinde eski tercihi kontrol et
         if (localStorage.getItem('theme') === 'dark') {
             body.classList.add('dark-mode');
             themeToggle.innerHTML = '☀️';
         }
 
+        // Butona tıklandığında temayı değiştir
         themeToggle.addEventListener('click', () => {
             body.classList.toggle('dark-mode');
             if (body.classList.contains('dark-mode')) {
@@ -104,30 +164,6 @@
             }
         });
 
-        // --- Sınıf Filtreleme Scripti ---
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const fileItems = document.querySelectorAll('.file-item');
-
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Aktif buton stilini değiştir
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-
-                // Seçilen filtreyi al
-                const filterValue = btn.getAttribute('data-filter');
-
-                // Dosyaları gizle veya göster
-                fileItems.forEach(item => {
-                    if (filterValue === 'all' || item.classList.contains(filterValue)) {
-                        item.style.display = 'flex';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-            });
-        });
-    </script>
-
+                </script>
 </body>
 </html>
