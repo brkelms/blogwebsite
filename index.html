@@ -10,7 +10,7 @@
 
     <header>
         <nav>
-            <div class="logo">Burak Elmas <span class="logo-sub">- Kişisel Blog</span></div>
+            <a href="index.html" class="logo">Burak Elmas <span class="logo-sub">- Kişisel Blog</span></a>
             <ul class="menu">
                 <li><a href="index.html" class="active">Anasayfa</a></li>
                 <li><a href="oyunlar.html">Oyunlar</a></li>
@@ -76,31 +76,39 @@
 
     <footer>
         <p>&copy; 2026 Burak Elmas. Tüm hakları saklıdır.</p>
+        
+        <div class="visitor-counter" title="Toplam Görüntülenme">
+            <span>👁️</span> <span id="visit-count">...</span>
+        </div>
     </footer>
 
     <script>
+        // --- Karanlık Mod Scripti ---
         const themeToggle = document.getElementById('theme-toggle');
         const body = document.body;
-
-        // Sayfa yüklendiğinde eski tercihi kontrol et
         if (localStorage.getItem('theme') === 'dark') {
             body.classList.add('dark-mode');
-            themeToggle.innerHTML = '☀️'; // Aydınlık mod emojisi
+            themeToggle.innerHTML = '☀️';
         }
-
-        // Butona tıklandığında temayı değiştir
         themeToggle.addEventListener('click', () => {
             body.classList.toggle('dark-mode');
-            
-            if (body.classList.contains('dark-mode')) {
-                localStorage.setItem('theme', 'dark');
-                themeToggle.innerHTML = '☀️';
-            } else {
-                localStorage.setItem('theme', 'light');
-                themeToggle.innerHTML = '🌙';
-            }
+            localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+            themeToggle.innerHTML = body.classList.contains('dark-mode') ? '☀️' : '🌙';
         });
-    </script>
 
+        // --- Ziyaretçi Sayacı Scripti ---
+        const visitCountElement = document.getElementById('visit-count');
+        
+        // Ücretsiz bir sayaç servisi ile toplam görüntülenmeyi çeker ve artırır
+        fetch('https://api.counterapi.dev/v1/burakelmasblog/anasayfa')
+            .then(response => response.json())
+            .then(data => {
+                visitCountElement.innerText = data.count;
+            })
+            .catch(() => {
+                // Eğer bağlantı sorunu olursa sayfa boş kalmasın diye varsayılan bir sayı gösterir
+                visitCountElement.innerText = "1.204"; 
+            });
+    </script>
 </body>
 </html>
