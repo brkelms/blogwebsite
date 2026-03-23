@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yazı Detayı - Burak Elmas</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* --- SADECE BU SAYFAYA ÖZEL TASARIMLAR --- */
+        .article-detail {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .detail-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .detail-meta {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            font-weight: 500;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+        }
+        .detail-title {
+            font-size: 2.5rem;
+            color: var(--text-primary);
+            margin-bottom: 30px;
+            line-height: 1.3;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .detail-body {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            white-space: pre-wrap; /* Paragraf boşluklarını korur */
+        }
+        .loading-text {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+        }
+        .back-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 25px;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+        .back-link:hover {
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <a href="index.html" class="logo">Burak Elmas <span class="logo-sub">- Kişisel Blog</span></a>
+            <ul class="menu">
+                <li><a href="index.html">Anasayfa</a></li>
+                <li><a href="oyunlar.html">Oyunlar</a></li>
+                <li><a href="kodlama.html">Kodlama</a></li>
+                <li><a href="yazilarim.html">Yazılarım</a></li>
+                <li><a href="bilisim-deposu.html">Bilişim Deposu</a></li>
+                <li><a href="iletisim.html">İletişim</a></li>
+                <li><button id="theme-toggle" class="theme-btn" title="Temayı Değiştir">🌙</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="article-detail" id="icerik-alani">
+        <div class="loading-text">Yazı veritabanından yükleniyor...</div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Burak Elmas. Tüm hakları saklıdır.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        // --- KARANLIK MOD AYARLARI ---
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+        
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggle.innerHTML = '☀️';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                themeToggle.innerHTML = '☀️';
+            } else {
+                localStorage.setItem('theme', 'light');
+                themeToggle.innerHTML = '🌙';
+            }
+        });
+
+        // --- SUPABASE VERİTABANI BAĞLANTISI ---
+        
+        // DİKKAT: Aşağıdaki iki tırnak içine kendi Supabase URL ve API Anahtarını yapıştırmalısın!
+        const SUPABASE_URL = 'https://jezeawglyqfviucpektp.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImplemVhd2dseXFmdml1Y3Bla3RwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzMDc1MTgsImV4cCI6MjA4OTg4MzUxOH0.Khihqp-nDIPBeH1U3SDHF_95O8SWzBEU4c-h3LZ05tc';
+      
+
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // --- YAZI DETAYINI ÇEKME İŞLEMİ ---
+        async function yaziDetayiniGetir() {
+            const icerikAlani = document.getElementById('icerik-alani');
+            
+            // Tarayıcıdaki URL'den ?id= kısmını yakala
+            const urlParams = new URLSearchParams(window.location.search);
+            const yaziId = urlParams.get('id');
+
+            // Eğer ID yoksa hata ver ve anasayfaya dön linki koy
+            if (!yaziId) {
+                icerikAlani.innerHTML = '<div class="loading-text">Yazı bulunamadı. <br><br><a href="index.html" class="back-link">Anasayfaya Dön</a></div>';
+                return;
+            }
+
+            try {
+                // Supabase'den sadece bu ID'ye sahip yazıyı çek
+                const { data, error } = await supabaseClient
+                    .from('yazilar')
+                    .select('*')
+                    .eq('id', yaziId)
+                    .single(); // Sadece bir tane sonuç bekle
+
+                if (error) throw error;
+
+                // Tarihleri Türkçe formatına çevirme
+                const tarihAyarlari = { year: 'numeric', month: 'long', day: 'numeric' };
+                let olusturmaTarihi = "Tarih Yok";
+                if (data.olusturma_tarihi) {
+                    olusturmaTarihi = new Date(data.olusturma_tarihi).toLocaleDateString('tr-TR', tarihAyarlari);
+                }
+                
+                // Güncelleme tarihi kontrolü
+                let guncellemeMetni = "";
+                if (data.degistirme_tarihi && data.degistirme_tarihi !== data.olusturma_tarihi) {
+                    const degistirmeTarihi = new Date(data.degistirme_tarihi).toLocaleDateString('tr-TR', tarihAyarlari);
+                    guncellemeMetni = `<span style="font-size: 0.85rem; opacity: 0.7;">(Son Güncelleme: ${degistirmeTarihi})</span>`;
+                }
+
+                // Gelen veriyi HTML içine yerleştirme
+                icerikAlani.innerHTML = `
+                    <a href="index.html" class="back-link">&larr; Anasayfaya Dön</a>
+                    <img src="${data.resim_url}" alt="${data.baslik}" class="detail-image">
+                    
+                    <div class="detail-meta">
+                        <span>👤 <b>${data.yazar_ismi || 'Burak Elmas'}</b></span>
+                        <span>|</span>
+                        <span>📁 ${data.kategori}</span>
+                        <span>|</span>
+                        <span>📅 Yayın: ${olusturmaTarihi}</span>
+                        ${guncellemeMetni}
+                    </div>
+
+                    <h1 class="detail-title">${data.baslik}</h1>
+                    <div class="detail-body">${data.icerik || 'Bu yazının içeriği henüz eklenmemiş.'}</div>
+                `;
+                
+                // Sayfa sekmesi başlığını da yazının başlığı yap
+                document.title = data.baslik + " - Burak Elmas";
+
+            } catch (hata) {
+                console.error("Hata:", hata.message);
+                icerikAlani.innerHTML = '<div class="loading-text">Yazı yüklenirken bir hata oluştu. Lütfen bağlantı ayarlarını kontrol et. <br><br><a href="index.html" class="back-link">Anasayfaya Dön</a></div>';
+            }
+        }
+
+        // Sayfa yüklendiğinde fonksiyonu çalıştır
+        yaziDetayiniGetir();
+    </script>
+</body>
+</html>

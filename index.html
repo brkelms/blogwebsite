@@ -11,6 +11,7 @@
     <header>
         <nav>
             <a href="index.html" class="logo">Burak Elmas <span class="logo-sub">- Kişisel Blog</span></a>
+            
             <ul class="menu">
                 <li><a href="index.html" class="active">Anasayfa</a></li>
                 <li><a href="oyunlar.html">Oyunlar</a></li>
@@ -34,81 +35,109 @@
                 <h2>Son Yazılar</h2>
             </div>
             
-            <div class="article-list">
-                <article class="article-card">
-                    <div class="article-thumb">
-                        <img src="https://via.placeholder.com/300x200/2c3e50/ffffff?text=Teknofest" alt="Akıllı Çanta Projesi">
-                    </div>
-                    <div class="article-content">
-                        <span class="post-date">20 Mart 2026 • Projeler</span>
-                        <h3><a href="#">Teknofest 'Akıllı Çanta' Projemiz ve Öğrencilerle Çalışma Sürecimiz</a></h3>
-                        <p class="post-excerpt">Yıldızlar takımı ile yürüttüğümüz bu projede, donanım ihtiyaçlarından algoritma tasarımına kadar geçen süreci ve öğrencilerimizin gelişimini kaleme aldım.</p>
-                        <a href="#" class="read-more">Devamını Oku &rarr;</a>
-                    </div>
-                </article>
-
-                <article class="article-card">
-                    <div class="article-thumb">
-                        <img src="https://via.placeholder.com/300x200/27ae60/ffffff?text=Saksi+Bahceciligi" alt="Saksı Bahçeciliği">
-                    </div>
-                    <div class="article-content">
-                        <span class="post-date">15 Mart 2026 • Yaşam</span>
-                        <h3><a href="#">Evde Saksı Bahçeciliği: Pratik ve Hızlı Büyüyen Bitkiler</a></h3>
-                        <p class="post-excerpt">Balkon veya pencere önünde, bakımı kolay ve hızlı sonuç veren sebze ve meyveleri nasıl yetiştirebileceğimize dair pratik ipuçları.</p>
-                        <a href="#" class="read-more">Devamını Oku &rarr;</a>
-                    </div>
-                </article>
-
-                <article class="article-card">
-                    <div class="article-thumb">
-                        <img src="https://via.placeholder.com/300x200/e67e22/ffffff?text=Okuma+Hedefi" alt="Kitap Okuma Hedefi">
-                    </div>
-                    <div class="article-content">
-                        <span class="post-date">8 Mart 2026 • Kişisel Gelişim</span>
-                        <h3><a href="#">300 Günlük Okuma Serüveni: Her Gün 12 Sayfa</a></h3>
-                        <p class="post-excerpt">Yıl sonuna kadar sürdüreceğim okuma hedefime başladım. İlerlememi takip etmek için oluşturduğum sistem ve düzenli okuma alışkanlığının etkileri.</p>
-                        <a href="#" class="read-more">Devamını Oku &rarr;</a>
-                    </div>
-                </article>
+            <div id="yazilar-alani" class="article-list">
+                <p style="text-align: center; color: #888; padding: 40px 0;">Yazılar veritabanından yükleniyor...</p>
             </div>
         </section>
     </main>
 
     <footer>
         <p>&copy; 2026 Burak Elmas. Tüm hakları saklıdır.</p>
-        
         <div class="visitor-counter" title="Toplam Görüntülenme">
             <span>👁️</span> <span id="visit-count">...</span>
         </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <script>
-        // --- Karanlık Mod Scripti ---
+        // --- KARANLIK MOD AYARLARI ---
         const themeToggle = document.getElementById('theme-toggle');
         const body = document.body;
+        
         if (localStorage.getItem('theme') === 'dark') {
             body.classList.add('dark-mode');
             themeToggle.innerHTML = '☀️';
         }
+
         themeToggle.addEventListener('click', () => {
             body.classList.toggle('dark-mode');
-            localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
-            themeToggle.innerHTML = body.classList.contains('dark-mode') ? '☀️' : '🌙';
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                themeToggle.innerHTML = '☀️';
+            } else {
+                localStorage.setItem('theme', 'light');
+                themeToggle.innerHTML = '🌙';
+            }
         });
 
-        // --- Ziyaretçi Sayacı Scripti ---
+        // --- ZİYARETÇİ SAYACI ---
         const visitCountElement = document.getElementById('visit-count');
-        
-        // Ücretsiz bir sayaç servisi ile toplam görüntülenmeyi çeker ve artırır
         fetch('https://api.counterapi.dev/v1/burakelmasblog/anasayfa')
             .then(response => response.json())
             .then(data => {
                 visitCountElement.innerText = data.count;
             })
             .catch(() => {
-                // Eğer bağlantı sorunu olursa sayfa boş kalmasın diye varsayılan bir sayı gösterir
-                visitCountElement.innerText = "1.204"; 
+                visitCountElement.innerText = "1.204"; // Hata durumunda varsayılan
             });
+
+
+        // --- SUPABASE VERİTABANI BAĞLANTISI ---
+        
+        // DİKKAT: Aşağıdaki iki tırnak içine kendi Supabase URL ve API Anahtarını yapıştırmalısın!
+        const SUPABASE_URL = 'https://jezeawglyqfviucpektp.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImplemVhd2dseXFmdml1Y3Bla3RwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzMDc1MTgsImV4cCI6MjA4OTg4MzUxOH0.Khihqp-nDIPBeH1U3SDHF_95O8SWzBEU4c-h3LZ05tc';
+      
+
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        async function yazilariGetir() {
+            const yazilarAlani = document.getElementById('yazilar-alani');
+
+            try {
+                // En güncel 3 yazıyı veritabanından çek
+                const { data, error } = await supabaseClient
+                    .from('yazilar')
+                    .select('*')
+                    .order('id', { ascending: false })
+                    .limit(3);
+
+                if (error) throw error;
+
+                yazilarAlani.innerHTML = ''; // Yükleniyor yazısını temizle
+
+                if (data.length === 0) {
+                    yazilarAlani.innerHTML = '<p style="text-align: center; color: var(--text-muted);">Henüz yazı eklenmemiş.</p>';
+                    return;
+                }
+
+                // Gelen her veriyi HTML olarak ekrana bas
+                data.forEach(yazi => {
+                    const articleHTML = `
+                        <article class="article-card">
+                            <div class="article-thumb">
+                                <img src="${yazi.resim_url}" alt="${yazi.baslik}">
+                            </div>
+                            <div class="article-content">
+                                <span class="post-date">${yazi.tarih} • ${yazi.kategori}</span>
+                                <h3><a href="icerik.html?id=${yazi.id}">${yazi.baslik}</a></h3>
+                                <p class="post-excerpt">${yazi.ozet}</p>
+                                <a href="icerik.html?id=${yazi.id}" class="read-more">Devamını Oku &rarr;</a>
+                            </div>
+                        </article>
+                    `;
+                    yazilarAlani.innerHTML += articleHTML;
+                });
+
+            } catch (hata) {
+                console.error("Yazılar çekilirken hata oluştu:", hata.message);
+                yazilarAlani.innerHTML = '<p style="text-align: center; color: #dc2743;">Yazılar yüklenirken bir sorun oluştu. Lütfen bağlantı ayarlarını kontrol et.</p>';
+            }
+        }
+
+        // Sayfa yüklendiğinde yazıları getirme fonksiyonunu tetikle
+        yazilariGetir();
     </script>
 </body>
 </html>

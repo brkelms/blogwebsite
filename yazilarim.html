@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yazılarım - Burak Elmas</title>
+    <title>Tüm Yazılarım - Burak Elmas</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -23,39 +23,93 @@
         </nav>
     </header>
 
-    <main class="construction-main">
-        <div class="construction-container">
-            <div class="construction-icon">🚧</div>
-            <h1>Yapım Aşamasında</h1>
-            <p>Bu sayfa üzerinde çalışmalarım devam ediyor. Çok yakında yeni yazılarımla burada olacağım!</p>
-            <a href="index.html" class="back-btn">&larr; Anasayfaya Dön</a>
-        </div>
+    <main>
+        <section class="hero">
+            <h1>Tüm Yazılarım</h1>
+            <p>Eğitim, teknoloji ve kişisel deneyimlerime dair tüm arşiv.</p>
+        </section>
+
+        <section class="article-list" id="tum-yazilar-alani">
+            <p style="text-align: center; color: var(--text-muted); padding: 50px;">Arşiv yükleniyor...</p>
+        </section>
     </main>
 
     <footer>
         <p>&copy; 2026 Burak Elmas. Tüm hakları saklıdır.</p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <script>
+        // --- KARANLIK MOD ---
         const themeToggle = document.getElementById('theme-toggle');
         const body = document.body;
-
         if (localStorage.getItem('theme') === 'dark') {
             body.classList.add('dark-mode');
             themeToggle.innerHTML = '☀️';
         }
-
         themeToggle.addEventListener('click', () => {
             body.classList.toggle('dark-mode');
-            if (body.classList.contains('dark-mode')) {
-                localStorage.setItem('theme', 'dark');
-                themeToggle.innerHTML = '☀️';
-            } else {
-                localStorage.setItem('theme', 'light');
-                themeToggle.innerHTML = '🌙';
-            }
+            localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+            themeToggle.innerHTML = body.classList.contains('dark-mode') ? '☀️' : '🌙';
         });
-    </script>
 
+        // --- SUPABASE BAĞLANTISI ---
+        const SUPABASE_URL = 'https://jezeawglyqfviucpektp.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImplemVhd2dseXFmdml1Y3Bla3RwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzMDc1MTgsImV4cCI6MjA4OTg4MzUxOH0.Khihqp-nDIPBeH1U3SDHF_95O8SWzBEU4c-h3LZ05tc';
+      
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // --- TÜM YAZILARI ÇEKME FONKSİYONU ---
+        async function tumYazilariGetir() {
+            const listeAlani = document.getElementById('tum-yazilar-alani');
+
+            try {
+                // 'yazilar' tablosundaki TÜM verileri çek (Limit koymuyoruz)
+                const { data, error } = await supabaseClient
+                    .from('yazilar')
+                    .select('*')
+                    .order('olusturma_tarihi', { ascending: false }); // En yeni en üstte
+
+                if (error) throw error;
+
+                listeAlani.innerHTML = ''; // Yükleniyor yazısını kaldır
+
+                if (data.length === 0) {
+                    listeAlani.innerHTML = '<p style="text-align: center; color: var(--text-muted);">Henüz hiç yazı yayınlanmamış.</p>';
+                    return;
+                }
+
+                data.forEach(yazi => {
+                    // Veritabanındaki manuel 'tarih' sütununu veya 'olusturma_tarihi'ni kullanabilirsin.
+                    // Biz dinamik olsun diye olusturma_tarihi'ni şık bir formata çevirelim:
+                    const tarih = new Date(yazi.olusturma_tarihi).toLocaleDateString('tr-TR', {
+                        year: 'numeric', month: 'long', day: 'numeric'
+                    });
+
+                    const cardHTML = `
+                        <article class="article-card">
+                            <div class="article-thumb">
+                                <img src="${yazi.resim_url}" alt="${yazi.baslik}">
+                            </div>
+                            <div class="article-content">
+                                <span class="post-date">${tarih} • ${yazi.kategori}</span>
+                                <h3><a href="icerik.html?id=${yazi.id}">${yazi.baslik}</a></h3>
+                                <p class="post-excerpt">${yazi.ozet}</p>
+                                <a href="icerik.html?id=${yazi.id}" class="read-more">Devamını Oku &rarr;</a>
+                            </div>
+                        </article>
+                    `;
+                    listeAlani.innerHTML += cardHTML;
+                });
+
+            } catch (hata) {
+                console.error("Hata:", hata.message);
+                listeAlani.innerHTML = '<p style="text-align: center; color: #dc2743;">Yazılar listelenirken bir sorun oluştu.</p>';
+            }
+        }
+
+        tumYazilariGetir();
+    </script>
 </body>
 </html>
